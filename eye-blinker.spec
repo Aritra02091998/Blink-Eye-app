@@ -5,7 +5,7 @@ a = Analysis(
     ['eye-blinker.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('tenor.gif', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

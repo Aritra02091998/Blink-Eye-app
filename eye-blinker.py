@@ -154,3 +154,9 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = BlinkNotifier(root)
     root.mainloop()
+
+"""
+To build the exe file:
+pyinstaller --noconfirm --onefile --windowed --icon=icon.ico your_script.py
+
+"""
