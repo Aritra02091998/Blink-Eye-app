@@ -1,20 +1,28 @@
+import time
+import sys, os
+import threading
 import tkinter as tk
 from tkinter import Toplevel
 from PIL import Image, ImageTk, ImageSequence
-import threading
-import time
+
 
 # Constants
 REMINDER_INTERVAL = 20 * 60  # 20 minutes
-DISPLAY_DURATION = 50        # 50 seconds for debug
-GIF_PATH = "./tenor.gif"
-ICON_PATH = "./icon.ico"  # Replace with your actual path
+DISPLAY_DURATION = 20        # 50 seconds for debug
 
 # Color Palette
 BG_COLOR = "#1C1C21"
 POPUP_COLOR = "#2F3037"
 TITLE_COLOR = "#EAEAEA"
 TEXT_COLOR = "#CCCCCC"
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+GIF_PATH = resource_path("tenor.gif")
+ICON_PATH = resource_path("icon.ico")
 
 class BlinkNotifier:
     def __init__(self, root):
@@ -46,10 +54,21 @@ class BlinkNotifier:
 
     def show_notification(self):
         print("[INFO] Creating reminder popup window...")
+
         popup = Toplevel(self.root)
         popup.title("Time to Blink!")
-        popup.geometry("300x450")
+        popup_width = 280
+        popup_height = 440
+
+        # Calculate position for bottom-right
+        screen_width = popup.winfo_screenwidth()
+        screen_height = popup.winfo_screenheight()
+        x = screen_width - popup_width - 10
+        y = (screen_height // 2) - (popup_height // 2)
+
+        popup.geometry(f"{popup_width}x{popup_height}+{x}+{y}")
         popup.configure(bg=POPUP_COLOR)
+
         popup.resizable(False, False)
         popup.attributes('-topmost', True)
         popup.overrideredirect(True)
